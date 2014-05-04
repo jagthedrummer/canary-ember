@@ -1,2 +1,6 @@
 <h2>Checks</h2>
-
+<ul>
+  {{#each check in content}}
+  <li>{{#link-to 'check' check}}{{check.url}}{{/link-to}}</li>
+  {{/each}}
+</ul>
