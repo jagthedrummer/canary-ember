@@ -35,14 +35,15 @@ var app = new EmberApp({
   getEnvJSON: require('./config/environment')
 });
 
+
 var pickFiles = require('broccoli-static-compiler');
 var mergeTrees  = require('broccoli-merge-trees');
 
 // get a hold of the tree in question
 var bootstrap = pickFiles('vendor', {
-  srcDir: '/bootstrap-sass-official/vendor/assets/stylesheets',
+  srcDir: '/bootstrap/dist/css',
   files: [
-    //'bootstrap.scss',
+    'bootstrap.css',
     //'bootstrap/_variables.scss'
   ],
   destDir: '/assets/'
@@ -60,13 +61,15 @@ module.exports = appAndCustomDependencies;
 
 
 /*
+var concat = require('broccoli-concat');
 var vendorCss = concat('vendor', {
   inputFiles: [
-    'bootstrap-sass/dist/css/bootstrap.css'
+    'bootstrap/dist/css/bootstrap.css'
    ],
   outputFile: '/assets/vendor.css'
 });
-*/
+
 
 // original exports
-//module.exports = app.toTree();
+module.exports = app.toTree();
+*/

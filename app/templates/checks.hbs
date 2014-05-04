@@ -1,6 +1,5 @@
-<h2>Checks</h2>
-<ul>
+<ul class="nav nav-sidebar">
   {{#each check in content}}
-  <li>{{#link-to 'check' check}}{{check.url}}{{/link-to}}</li>
+  <li>{{#link-to 'measurements' check}}{{check.url}}{{/link-to}}</li>
   {{/each}}
 </ul>
