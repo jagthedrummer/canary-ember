@@ -18,7 +18,7 @@ var CheckRoute = Ember.Route.extend({
 
     var checkId = this.get('checkId');
     var checks = this.controllerFor('checks');
-    var check = checks.filter(function(item, index, self){
+    var check = checks.filter(function(item){
       return item.get('id') === checkId;
     })[0];
     this.controller.set('model',check);
