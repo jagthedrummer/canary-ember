@@ -3,9 +3,13 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.resource('check',{path:'/checks/:check_id'},function(){
-    this.resource('measurements');
+
+  this.resource('checks',function(){
+    this.resource('check',{path:'/:check_id'},function(){
+      this.resource('measurements');
+    });
   });
+    
 });
 
 export default Router;
