@@ -1,6 +1,5 @@
 var MeasurementsController = Ember.ArrayController.extend({
 
-  needs : ['check']
 
 });
 
