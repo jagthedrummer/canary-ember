@@ -4,7 +4,6 @@ export default DS.RESTAdapter.extend({
   findQuery: function(store, type, query) {
     var url = this.buildURL('');
     url += "/" + query.check_id + "/measurements";
-    console.log("url",url,query);
     return this.ajax(url, 'GET', { });
   }
 });

@@ -4,7 +4,7 @@
 
       <ul class="nav nav-sidebar">
         {{#each check in content}}
-        <li>{{#link-to 'measurements' check}}{{check.url}}{{/link-to}}</li>
+        <li>{{#link-to 'measurements' check.id}}{{check.url}}{{/link-to}}</li>
         {{/each}}
       </ul>
 
@@ -13,11 +13,7 @@
 
       {{outlet}}
 
-      
     </div>
   </div>
 </div>
 
-
-
-      

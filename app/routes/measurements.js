@@ -1,12 +1,16 @@
 var MeasurementsRoute = Ember.Route.extend({
 
-  model : function(params){
-    var check = this.controllerFor('check');
-    console.log('check',check);
-    console.log("params",params);
-    console.log("other", this.get('controllers.check'));
-    return this.store.find('measurement',{check_id : check.get('id')});
+  model : function(){
+    //var check = this.controllerFor('check');
+    //return this.store.find('measurement',{check_id : check.get('id')});
+    return []; // make sure the controller alwyas has a collection
+  },
+
+  /*
+  setupController : function(model,controller){
+    this._super(model,controller);
   }
+  */
 
 });
 
