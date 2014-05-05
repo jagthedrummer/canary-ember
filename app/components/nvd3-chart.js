@@ -3,26 +3,6 @@ var Nvd3ChartComponent = Ember.Component.extend({
   chart : null,
   height : "350px",
   showLegend : true,
-  origData : [{
-    key : "Visits",
-    values: [{
-      series: 0,
-      x : 0,
-      y : 0
-    },{
-      series: 0,
-      x : 1,
-      y : 1
-    },{
-      series: 0,
-      x : 2,
-      y : 2
-    },{
-      series: 0,
-      x : 3,
-      y : 3
-    }]
-  }],
   initChart : function(){
     var _this = this;
     nv.addGraph(function() {
@@ -33,7 +13,6 @@ var Nvd3ChartComponent = Ember.Component.extend({
                     .showLegend(_this.get('showLegend'))       //Show the legend, allowing users to turn on/off line series.
                     .showYAxis(true)        //Show the y-axis
                     .showXAxis(true)        //Show the x-axis
-                    .color(['#a20067','#008C95','#B58500','#515348','#f1c400'])
       ;
 
       

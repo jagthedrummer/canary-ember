@@ -6,38 +6,6 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   sortAscending : true,
 
-  buildData : function(){
-    var data = {};
-    var rawData = this.get('content');
-    var _this = this;
-    console.log("!!!rawData",rawData);
-    rawData.forEach(function(item,index){
-      console.log('running for ', item, index);
-      var location = item.get('location');
-      if(!data[location]){
-        data[location] = _this.emptySeries();
-      }
-      data[location][0].data.push({
-        x:item.get('t'),
-        y:item.get('total_time')
-      });
-      data[location][1].data.push({
-        x:item.get('t'),
-        y:item.get('starttransfer_time')
-      });
-      data[location][2].data.push({
-        x:item.get('t'),
-        y:item.get('connect_time')
-      });
-      data[location][3].data.push({
-        x:item.get('t'),
-        y:item.get('namelookup_time')
-      });
-
-    });
-    return data;
-  },
-
   filterLineChartData : function(source,dataAtt,title){
     //console.log("*****");
     var values = this.get(source).map(function(item){
@@ -145,7 +113,20 @@ var MeasurementsController = Ember.ArrayController.extend({
 
 
     this.set('allTheData',data);
-  }.observes('model')
+  }.observes('model'),
+
+  updateContent : function(){
+    var _this = this;
+    this.store.find('measurement',{check_id:this.get('check_id')}).then(function(measurements){
+      _this.set('model',measurements);
+    });
+    var timeout = this.get('timeout');
+    if(timeout){
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout($.proxy(this.updateContent,this),5 * 1000);
+    this.set('timeout',timeout);
+  }
 
 
 });

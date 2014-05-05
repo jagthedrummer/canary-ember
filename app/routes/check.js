@@ -24,9 +24,13 @@ var CheckRoute = Ember.Route.extend({
     this.controller.set('model',check);
 
     var measurementController = this.controllerFor('measurements');
+    measurementController.set('check_id',model.get('id'));
+    measurementController.send('updateContent');
+    /*
     this.store.find('measurement',{check_id:model.get('id')}).then(function(measurements){
       measurementController.set('model',measurements);
     });
+   */
   }
 
 });
