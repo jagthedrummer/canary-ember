@@ -35,7 +35,12 @@ var app = new EmberApp({
   getEnvJSON: require('./config/environment')
 });
 
+// default ember app source tree
+var emberApp = app.toTree();
 
+
+
+/*
 var pickFiles = require('broccoli-static-compiler');
 var mergeTrees  = require('broccoli-merge-trees');
 
@@ -49,8 +54,7 @@ var bootstrap = pickFiles('vendor', {
   destDir: '/assets/'
 });
 
-// default ember app source tree
-var emberApp = app.toTree();
+
 
 // shim in custom assets
 var appAndCustomDependencies = mergeTrees([emberApp, bootstrap], {
@@ -58,18 +62,32 @@ var appAndCustomDependencies = mergeTrees([emberApp, bootstrap], {
 });
 
 module.exports = appAndCustomDependencies;
+*/
 
-
-/*
+var mergeTrees  = require('broccoli-merge-trees');
 var concat = require('broccoli-concat');
 var vendorCss = concat('vendor', {
   inputFiles: [
-    'bootstrap/dist/css/bootstrap.css'
+    'bootstrap/dist/css/bootstrap.css',
+    'nvd3/nv.d3.css'
    ],
   outputFile: '/assets/vendor.css'
 });
 
+var vendorJs = concat('vendor',{
+  inputFiles: [
+    'd3/d3.js',
+    'nvd3/nv.d3.js'
+  ],
+  outputFile: '/assets/vendor.js'
+});
+
+var appAndCustomDependencies = mergeTrees([emberApp, vendorCss, vendorJs], {
+  overwrite: true
+});
+
+module.exports = appAndCustomDependencies;
 
 // original exports
-module.exports = app.toTree();
-*/
+//module.exports = app.toTree();
+

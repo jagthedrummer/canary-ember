@@ -1,0 +1,32 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Timestamp</th>
+        <th>Total Time</th>
+        <th>Start Transfer Time</th>
+        <th>Connect Time</th>
+        <th>Name Lookup Time</th>
+        <th>Location</th>
+        <th>Exit Status</th>
+        <th>Http Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each measurement in content}}
+        <tr>
+          <td>{{measurement.id}}</td>
+          <td>{{measurement.t}}</td>
+          <td>{{measurement.total_time}}</td>
+          <td>{{measurement.connect_time}}</td>
+          <td>{{measurement.starttransfer_time}}</td>
+          <td>{{measurement.namelookup_time}}</td>
+          <td>{{measurement.location}}</td>
+          <td>{{measurement.exit_status}}</td>
+          <td>{{measurement.http_status}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

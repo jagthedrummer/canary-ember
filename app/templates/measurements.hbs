@@ -1,32 +1,29 @@
-<h2 class="sub-header">Measurements</h2>
+<h3>Total Time</h3>
+{{nvd3-chart data=allTheData showLegend=true}}
 
-<div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Timestamp</th>
-        <th>Total Time</th>
-        <th>Start Transfer Time</th>
-        <th>Name Lookup Time</th>
-        <th>Location</th>
-        <th>Exit Status</th>
-        <th>Http Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each measurement in content}}
-        <tr>
-          <td>{{measurement.id}}</td>
-          <td>{{measurement.t}}</td>
-          <td>{{measurement.total_time}}</td>
-          <td>{{measurement.starttransfer_time}}</td>
-          <td>{{measurement.namelookup_time}}</td>
-          <td>{{measurement.location}}</td>
-          <td>{{measurement.exit_status}}</td>
-          <td>{{measurement.http_status}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
+
+<div class="locations">
+  <div class="location">
+    <h3>do-ams2</h3>
+    {{nvd3-chart data=doams2LineData}}
+  </div>
+
+  <div class="location">
+    <h3>do-sf1</h3>
+    {{nvd3-chart data=dosf1LineData}}
+  </div>
+
+  <div class="location">
+    <h3>do-ny2</h3>
+    {{nvd3-chart data=dony2LineData}}
+  </div>
+
+  <div class="location">
+    <h3>do-sin1</h3>
+    {{nvd3-chart data=dosin1LineData}}
+  </div>
 </div>
+
+
+
+
