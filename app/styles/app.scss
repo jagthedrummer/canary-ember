@@ -101,8 +101,20 @@ body {
 .locations{
 
   .location{
-    width:24%;
-    float:left;
+    /*
+      width:24%;
+      float:left;
+    */
   }
 
+}
+
+.pies{
+  .pie{
+    width:20%;
+    float:left;
+    &.primary{
+      width:40%;
+    }
+  }
 }

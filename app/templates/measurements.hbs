@@ -1,29 +1,71 @@
-<h3>Total Time</h3>
-{{nvd3-chart data=allTheData showLegend=true}}
+{{partial "tabs"}}
+
+<h3>{{currentDataName}}</h3>
+{{nvd3-chart data=currentLineData showLegend=true}}
+<div class="pies">
+  <div class="pie primary">
+    <h3>Primary IP</h3>
+    {{nvd3-donut-chart data=currentPrimaryIpPieData}}
+  </div>
+  {{#if isOverview}}
+    <div class="pie primary">
+      <h3>Location</h3>
+      {{nvd3-donut-chart data=currentLocationPieData}}
+    </div>
+  {{else}}
+    <div class="pie">
+      <h3>Local IP</h3>
+      {{nvd3-donut-chart data=currentLocalIpPieData}}
+    </div>
+    <div class="pie">
+      <h3>Exit Status</h3>
+      {{nvd3-donut-chart data=currentExitPieData}}
+    </div>
+    <div class="pie">
+      <h3>Http Status</h3>
+      {{nvd3-donut-chart data=currentHttpPieData}}
+    </div>
+  {{/if}}
+</div>
 
 
+
+
+{{#if isOverview}}
+  {{!nvd3-chart data=allTheData showLegend=true}}
+{{else}}
+    {{!nvd3-chart data=doams2LineData}}
+    {{!nvd3-donut-chart data=doams2PrimaryIpPieData}}
+    {{!nvd3-donut-chart data=doams2ExitPieData}}
+    {{!nvd3-donut-chart data=doams2HttpPieData}}
+    {{!nvd3-donut-chart data=doams2LocalIpPieData}}
+{{/if}}
+
+
+
+<!--
 <div class="locations">
   <div class="location">
-    <h3>do-ams2</h3>
-    {{nvd3-chart data=doams2LineData}}
+    
+    
   </div>
 
   <div class="location">
     <h3>do-sf1</h3>
-    {{nvd3-chart data=dosf1LineData}}
+    {{!nvd3-chart data=dosf1LineData}}
   </div>
 
   <div class="location">
     <h3>do-ny2</h3>
-    {{nvd3-chart data=dony2LineData}}
+    {{!nvd3-chart data=dony2LineData}}
   </div>
 
   <div class="location">
     <h3>do-sin1</h3>
-    {{nvd3-chart data=dosin1LineData}}
+    {{!nvd3-chart data=dosin1LineData}}
   </div>
 </div>
-
+-->
 
 
 

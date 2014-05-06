@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs">
+  <li>
+    <a href="#" {{action setCurrentDataName 'overview'}}>Overview</a>
+  </li>
+  {{#each location in uniqLocations}}
+    <li><a href="#" {{action setCurrentDataName location}}>{{location}}</a></li>
+  {{/each}}
+</ul>

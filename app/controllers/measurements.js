@@ -6,6 +6,42 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   sortAscending : true,
 
+  currentDataName : 'overview', // either 'overview' or a location
+
+  setCurrentDataName : function(name){
+    this.set('currentDataName',name);
+  },
+
+  isOverview : function(){
+    return (this.get('currentDataName') == 'overview');
+  }.property('currentDataName'),
+
+  setCurrentLineData : function(){
+    console.log('trying to set currentLineData');
+    if( this.get('content.length') == 0 ){
+      return;
+    }
+    
+    if( this.get('isOverview') ){
+      console.log('overview');
+      this.set('currentLineData',this.buildOverviewLineData());
+      this.set('currentPrimaryIpPieData',this.filterPieChartData('content','primary_ip'));
+      this.set('currentLocalIpPieData',this.filterPieChartData('content','local_ip'));
+      this.set('currentExitPieData',this.filterPieChartData('content','exit_status'));
+      this.set('currentHttpPieData',this.filterPieChartData('content','http_status'));
+      this.set('currentLocationPieData',this.filterPieChartData('content','location'));
+    }else{
+      console.log('location');
+      var location = this.get('currentDataName').replace('-','');
+      this.set('currentLineData',this.buildLocationLineData(location));
+      this.set('currentPrimaryIpPieData',this.filterPieChartData(location,'primary_ip'));
+      this.set('currentLocalIpPieData',this.filterPieChartData(location,'local_ip'));
+      this.set('currentExitPieData',this.filterPieChartData(location,'exit_status'));
+      this.set('currentHttpPieData',this.filterPieChartData(location,'http_status'));
+    }
+  }.observes('model','currentDataName'),
+
+
   filterLineChartData : function(source,dataAtt,title){
     //console.log("*****");
     var values = this.get(source).map(function(item){
@@ -23,6 +59,21 @@ var MeasurementsController = Ember.ArrayController.extend({
     //console.log(values);
     return [{key : title, values : values}];
 
+  },
+
+  filterPieChartData : function(source,dataAtt){
+    var data = [];
+    var map = {};
+    this.get(source).forEach(function(item){
+      var info = map[item.get(dataAtt)];
+      if(!info){
+        info = {"label":item.get(dataAtt),value:0};
+        map[item.get(dataAtt)] = info;
+        data.push(info);
+      }
+      info.value += 1;
+    });
+    return data;
   },
 
   totalTimeData : function(){
@@ -58,6 +109,11 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   setDoams2LineData : function(){
     this.setLocationLineData('doams2','doams2LineData');
+    
+    this.setLocationPieData('doams2','exit_status','doams2ExitPieData');
+    this.setLocationPieData('doams2','http_status','doams2HttpPieData');
+    this.setLocationPieData('doams2','local_ip','doams2LocalIpPieData');
+    this.setLocationPieData('doams2','primary_ip','doams2PrimaryIpPieData');
   }.observes('model'),
 
   setDosf1LineData : function(){
@@ -72,23 +128,33 @@ var MeasurementsController = Ember.ArrayController.extend({
     this.setLocationLineData('dosin1','dosin1LineData');
   }.observes('model'),
 
-
-  setLocationLineData : function(location,targetAtt){
+  setLocationPieData : function(location,sourceAtt,targetAtt){
     if( this.get('content.length') == 0 ){
       return;
     }
+    var data = this.filterPieChartData(location,sourceAtt);
+    this.set(targetAtt,data);
+  },
+
+  buildLocationLineData : function(location){
     var data = [];
     data.push(this.filterLineChartData(location,'total_time','Total')[0]);
     data.push(this.filterLineChartData(location,'starttransfer_time','Start Transfer')[0]);
     data.push(this.filterLineChartData(location,'connect_time','Connect')[0]);
     data.push(this.filterLineChartData(location,'namelookup_time','Name Lookup')[0]);
-    this.set(targetAtt,data);
+    console.log('locationLineData=',data);
+    return data;
   },
 
-  setAllTheData : function(){
+
+  setLocationLineData : function(location,targetAtt){
     if( this.get('content.length') == 0 ){
       return;
     }
+    this.set(targetAtt,this.buildLocationLineData(location));
+  },
+
+  buildOverviewLineData : function(){
     var data = [];
     data.push(this.filterLineChartData('doams2','total_time','do-ams2')[0]);
     //data.push(this.filterLineChartData('doams2','starttransfer_time','Start Transfer Time : do-ams2')[0]);
@@ -110,9 +176,15 @@ var MeasurementsController = Ember.ArrayController.extend({
     //data.push(this.filterLineChartData('dosin1','connect_time','Connect Time : do-sin1')[0]);
     //data.push(this.filterLineChartData('dosin1','namelookup_time','Name Lookup Time : do-sin1')[0]);
     
+    return data;
+  },
 
-
-    this.set('allTheData',data);
+  setAllTheData : function(){
+    if( this.get('content.length') == 0 ){
+      return;
+    }
+    
+    this.set('allTheData',this.buildOverviewLineData());
   }.observes('model'),
 
   updateContent : function(){
@@ -124,7 +196,7 @@ var MeasurementsController = Ember.ArrayController.extend({
     if(timeout){
       clearTimeout(timeout);
     }
-    timeout = setTimeout($.proxy(this.updateContent,this),5 * 1000);
+    timeout = setTimeout($.proxy(this.updateContent,this),3 * 1000);
     this.set('timeout',timeout);
   }
 
