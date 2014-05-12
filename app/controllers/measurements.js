@@ -26,8 +26,6 @@ var MeasurementsController = Ember.ArrayController.extend({
       name = 'all';
     }
     var locationData = masterLocationData[name];
-    console.log("locationData ===",locationData);
-    console.log("masterLocationData",masterLocationData);
     this.set('currentLineData',locationData.combinedTiming);
     
     this.set('currentPrimaryIpPieData',locationData.primary_ip);
@@ -113,7 +111,6 @@ var MeasurementsController = Ember.ArrayController.extend({
     });
     locations.all.combinedTiming = allCombinedData;
 
-    console.log("locations = ",locations);
     this.set('masterLocationData',locations);
   }.observes('model'),
 
@@ -128,7 +125,6 @@ var MeasurementsController = Ember.ArrayController.extend({
   },
 
   masterLocationDataArray : function(){
-    console.log('setting!');
     var locationData = this.get('masterLocationData');
     var keys = Object.keys(locationData).sort();
 
