@@ -43,6 +43,9 @@ var MeasurementsController = Ember.ArrayController.extend({
     var locations = {};
     var allData = locations['all'] = this.createLocationDataObject('all');
     var _this = this;
+    var pieAttNames = ['local_ip','primary_ip','exit_status','http_status','location'];
+    var lineAttNames = ['total_time','starttransfer_time','connect_time','namelookup_time'];
+
     this.get('content').forEach(function(item){
       var locationName = item.get('location');
       var locationData = locations[locationName];
@@ -50,15 +53,18 @@ var MeasurementsController = Ember.ArrayController.extend({
         locationData = locations[locationName] = _this.createLocationDataObject(locationName);
       }
       var t = item.get('t');
-      allData.total_time.values.unshift({x:t,y:item.get('total_time')});
-      allData.starttransfer_time.values.unshift({x:t,y:item.get('starttransfer_time')});
-      allData.connect_time.values.unshift({x:t,y:item.get('connect_time')});
-      allData.namelookup_time.values.unshift({x:t,y:item.get('namelookup_time')});
 
-      locationData.total_time.values.unshift({x:t,y:item.get('total_time')});
-      locationData.starttransfer_time.values.unshift({x:t,y:item.get('starttransfer_time')});
-      locationData.connect_time.values.unshift({x:t,y:item.get('connect_time')});
-      locationData.namelookup_time.values.unshift({x:t,y:item.get('namelookup_time')});
+      lineAttNames.forEach(function(attName){
+        allData[attName].values.unshift({x:t,y:item.get(attName)});
+        locationData[attName].values.unshift({x:t,y:item.get(attName)});
+      });
+
+      
+      pieAttNames.forEach(function(attName){
+        _this.handlePieCount(allData,attName,item);
+        _this.handlePieCount(locationData,attName,item);
+      });
+      
     });
 
     var keys = Object.keys(locations);
@@ -70,12 +76,33 @@ var MeasurementsController = Ember.ArrayController.extend({
         locationData.connect_time,
         locationData.namelookup_time
       ];
+      pieAttNames.forEach(function(attName){
+        var map = locationData[attName];
+        var data = [];
+        var mapKeys = Object.keys(map);
+        mapKeys.forEach(function(mapKey){
+          if(map[mapKey]){
+            data.push(map[mapKey]);
+          }
+        });
+        locationData[attName] = data;
+      });
 
     });
 
     console.log("locations = ",locations);
     this.set('masterLocationData',locations);
   }.observes('model'),
+
+  handlePieCount : function(locationData,attName,item){
+    var map = locationData[attName];
+    var info = map[item.get(attName)];
+    if(!info){
+      info = {"label":item.get(attName),value:0};
+      map[item.get(attName)] = info;
+    }
+    info.value += 1;
+  },
 
   masterLocationDataArray : function(){
     console.log('setting!');
@@ -92,7 +119,12 @@ var MeasurementsController = Ember.ArrayController.extend({
       total_time : {key : 'Total', values : []},
       starttransfer_time : {key : 'Start Transfer', values : []},
       connect_time : {key : 'Connect', values : []},
-      namelookup_time : {key : 'Name Lookup', values : []}
+      namelookup_time : {key : 'Name Lookup', values : []},
+      primary_ip : {},
+      local_ip : {},
+      exit_status : {},
+      http_status : {},
+      location : {}
     };
   },
 

@@ -1,2 +1,20 @@
-<h2>MeasurementsResponseCodes</h2>
-
+<h2>HTTP Responses ({{#link-to 'measurements.index'}}Back{{/link-to}})</h2>
+<div class="http-responses">
+  <div class="location">
+    <h3>do-ams2</h3>
+    {{nvd3-donut-chart data=masterLocationData.do-ams2.http_status showLegend=true height="150px"}}
+  </div>
+  <div class="location">
+    <h3>do-ny2</h3>
+    {{nvd3-donut-chart data=masterLocationData.do-ny2.http_status showLegend=true height="150px"}}
+  </div>
+  <div class="location">
+    <h3>do-sf1</h3>
+    {{nvd3-donut-chart data=masterLocationData.do-sf1.http_status showLegend=true height="150px"}}
+  </div>
+  <div class="location">
+    <h3>do-sin2</h3>
+    {{nvd3-donut-chart data=masterLocationData.do-sin1.http_status showLegend=true height="150px"}}
+  </div>
+  
+</div>
