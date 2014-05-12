@@ -20,7 +20,23 @@ var MeasurementsController = Ember.ArrayController.extend({
     if( this.get('content.length') == 0 ){
       return;
     }
+    var masterLocationData = this.get('masterLocationData');
+    var name = this.get('currentDataName');
+    if( name == 'overview'){
+      name = 'all';
+    }
+    var locationData = masterLocationData[name];
+    console.log("locationData ===",locationData);
+    console.log("masterLocationData",masterLocationData);
+    this.set('currentLineData',locationData.combinedTiming);
     
+    this.set('currentPrimaryIpPieData',locationData.primary_ip);
+    this.set('currentLocalIpPieData',locationData.local_ip);
+    this.set('currentExitPieData',locationData.exit_status);
+    this.set('currentHttpPieData',locationData.http_status);
+    this.set('currentLocationPieData',locationData.location);
+    
+    /*
     if( this.get('isOverview') ){
       this.set('currentLineData',this.buildOverviewLineData());
       this.set('currentPrimaryIpPieData',this.filterPieChartData('content','primary_ip'));
@@ -36,7 +52,8 @@ var MeasurementsController = Ember.ArrayController.extend({
       this.set('currentExitPieData',this.filterPieChartData(location,'exit_status'));
       this.set('currentHttpPieData',this.filterPieChartData(location,'http_status'));
     }
-  }.observes('model','currentDataName'),
+   */
+  }.observes('masterLocationData','currentDataName'),
 
   // Make one pass through the batch and extract various things
   buildMasterLocationData : function(){
@@ -68,6 +85,7 @@ var MeasurementsController = Ember.ArrayController.extend({
     });
 
     var keys = Object.keys(locations);
+    var allCombinedData = [];
     keys.forEach(function(locationName) { 
       var locationData = locations[locationName];
       locationData.combinedTiming = [
@@ -76,6 +94,11 @@ var MeasurementsController = Ember.ArrayController.extend({
         locationData.connect_time,
         locationData.namelookup_time
       ];
+
+      if(locationName != 'all'){
+        allCombinedData.push( {"key":locationName, values:  locationData.total_time.values});
+      }
+
       pieAttNames.forEach(function(attName){
         var map = locationData[attName];
         var data = [];
@@ -87,8 +110,8 @@ var MeasurementsController = Ember.ArrayController.extend({
         });
         locationData[attName] = data;
       });
-
     });
+    locations.all.combinedTiming = allCombinedData;
 
     console.log("locations = ",locations);
     this.set('masterLocationData',locations);
