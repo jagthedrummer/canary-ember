@@ -84,7 +84,7 @@ var MeasurementsController = Ember.ArrayController.extend({
       
     });
 
-    var keys = Object.keys(locations);
+    var keys = Object.keys(locations).sort();
     var allCombinedData = [];
     keys.forEach(function(locationName) { 
       var locationData = locations[locationName];
@@ -102,7 +102,7 @@ var MeasurementsController = Ember.ArrayController.extend({
       pieAttNames.forEach(function(attName){
         var map = locationData[attName];
         var data = [];
-        var mapKeys = Object.keys(map);
+        var mapKeys = Object.keys(map).sort();
         mapKeys.forEach(function(mapKey){
           if(map[mapKey]){
             data.push(map[mapKey]);
@@ -130,7 +130,7 @@ var MeasurementsController = Ember.ArrayController.extend({
   masterLocationDataArray : function(){
     console.log('setting!');
     var locationData = this.get('masterLocationData');
-    var keys = Object.keys(locationData);
+    var keys = Object.keys(locationData).sort();
 
     var values = keys.map(function(v) { return locationData[v]; });
     return values;
