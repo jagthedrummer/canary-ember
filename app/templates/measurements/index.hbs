@@ -1,0 +1,32 @@
+<h3>Overview</h3>
+<div class="overview">
+  <div class="timing">
+    <h3>{{#link-to 'measurements.timing'}}Timing{{/link-to}}</h3>
+    {{nvd3-chart data=currentLineData showLegend=true}}
+  </div>
+  <div class="http-response">
+    <h3>{{#link-to 'measurements.response_codes'}}Http Status{{/link-to}}</h3>
+    {{nvd3-donut-chart data=currentHttpPieData}}
+  </div>
+</div>
+
+<div class="pies">
+  <div class="pie primary">
+    <h3>Primary IP</h3>
+    {{nvd3-donut-chart data=currentPrimaryIpPieData}}
+  </div>
+  <div class="pie primary">
+    <h3>Location</h3>
+    {{nvd3-donut-chart data=currentLocationPieData}}
+  </div>
+  
+  <div class="pie">
+    <h3>Local IP</h3>
+    {{nvd3-donut-chart data=currentLocalIpPieData}}
+  </div>
+  <div class="pie">
+    <h3>Exit Status</h3>
+    {{nvd3-donut-chart data=currentExitPieData}}
+  </div>
+  
+</div>

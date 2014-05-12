@@ -25,7 +25,8 @@ var CheckRoute = Ember.Route.extend({
 
     var measurementController = this.controllerFor('measurements');
     measurementController.set('check_id',model.get('id'));
-    measurementController.send('updateContent');
+    //measurementController.send('updateContent');
+    measurementController.updateContent();
     /*
     this.store.find('measurement',{check_id:model.get('id')}).then(function(measurements){
       measurementController.set('model',measurements);

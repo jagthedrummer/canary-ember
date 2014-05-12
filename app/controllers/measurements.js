@@ -17,13 +17,11 @@ var MeasurementsController = Ember.ArrayController.extend({
   }.property('currentDataName'),
 
   setCurrentLineData : function(){
-    console.log('trying to set currentLineData');
     if( this.get('content.length') == 0 ){
       return;
     }
     
     if( this.get('isOverview') ){
-      console.log('overview');
       this.set('currentLineData',this.buildOverviewLineData());
       this.set('currentPrimaryIpPieData',this.filterPieChartData('content','primary_ip'));
       this.set('currentLocalIpPieData',this.filterPieChartData('content','local_ip'));
@@ -31,7 +29,6 @@ var MeasurementsController = Ember.ArrayController.extend({
       this.set('currentHttpPieData',this.filterPieChartData('content','http_status'));
       this.set('currentLocationPieData',this.filterPieChartData('content','location'));
     }else{
-      console.log('location');
       var location = this.get('currentDataName').replace('-','');
       this.set('currentLineData',this.buildLocationLineData(location));
       this.set('currentPrimaryIpPieData',this.filterPieChartData(location,'primary_ip'));
@@ -43,20 +40,14 @@ var MeasurementsController = Ember.ArrayController.extend({
 
 
   filterLineChartData : function(source,dataAtt,title){
-    //console.log("*****");
     var values = this.get(source).map(function(item){
-      //console.log(day.get(dataAtt));
-      //console.log(day.get('day'));
       var t = item.get('t');
-            //console.log(day);
       return {
         x : t,
         y : item.get(dataAtt),
         key : item.get('id')
       }
     });
-    //console.log('%%%%%');
-    //console.log(values);
     return [{key : title, values : values}];
 
   },
@@ -88,7 +79,7 @@ var MeasurementsController = Ember.ArrayController.extend({
   }.property('model'),
 
   uniqLocations : function(){
-    return this.get('locations').uniq();
+    return this.get('locations').uniq().sort();
   }.property('model'),
 
   doams2 : function(){
@@ -142,7 +133,6 @@ var MeasurementsController = Ember.ArrayController.extend({
     data.push(this.filterLineChartData(location,'starttransfer_time','Start Transfer')[0]);
     data.push(this.filterLineChartData(location,'connect_time','Connect')[0]);
     data.push(this.filterLineChartData(location,'namelookup_time','Name Lookup')[0]);
-    console.log('locationLineData=',data);
     return data;
   },
 

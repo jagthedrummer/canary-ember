@@ -1,33 +1,38 @@
 {{partial "tabs"}}
 
-<h3>{{currentDataName}}</h3>
-{{nvd3-chart data=currentLineData showLegend=true}}
+{{outlet}}
+<!--
+<hr/>
 <div class="pies">
   <div class="pie primary">
     <h3>Primary IP</h3>
-    {{nvd3-donut-chart data=currentPrimaryIpPieData}}
+    {{!nvd3-donut-chart data=currentPrimaryIpPieData}}
   </div>
   {{#if isOverview}}
     <div class="pie primary">
       <h3>Location</h3>
-      {{nvd3-donut-chart data=currentLocationPieData}}
+      {{!nvd3-donut-chart data=currentLocationPieData}}
+    </div>
+    <div class="pie primary">
+      <h3>Http Status</h3>
+      {{!nvd3-donut-chart data=currentHttpPieData}}
     </div>
   {{else}}
     <div class="pie">
       <h3>Local IP</h3>
-      {{nvd3-donut-chart data=currentLocalIpPieData}}
+      {{!nvd3-donut-chart data=currentLocalIpPieData}}
     </div>
     <div class="pie">
       <h3>Exit Status</h3>
-      {{nvd3-donut-chart data=currentExitPieData}}
+      {{!nvd3-donut-chart data=currentExitPieData}}
     </div>
     <div class="pie">
       <h3>Http Status</h3>
-      {{nvd3-donut-chart data=currentHttpPieData}}
+      {{!nvd3-donut-chart data=currentHttpPieData}}
     </div>
   {{/if}}
 </div>
-
+-->
 
 
 
@@ -66,6 +71,5 @@
   </div>
 </div>
 -->
-
 
 

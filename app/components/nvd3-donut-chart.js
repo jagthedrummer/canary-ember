@@ -7,7 +7,7 @@ var Nvd3DonutChartComponent = Ember.Component.extend({
   },
   
   sampleData : [
-      { 
+      /*{ 
         "label": "One",
         "value" : 29.765957771107
       } , 
@@ -15,8 +15,7 @@ var Nvd3DonutChartComponent = Ember.Component.extend({
       { 
         "label": "42",
         "value" : 32.807804682612
-      }
-      
+      }*/
     ],
 
   initChart : function() {
@@ -42,10 +41,7 @@ var Nvd3DonutChartComponent = Ember.Component.extend({
   },
 
   updateChart : function(){
-    console.log('calling update!');
     if (this.get('chart') && this.get('data') ) {
-      console.log('actually updating');
-      console.log(this.get('data'));
       d3.select(this.$('svg')[0])
         .datum(this.get('data'))
         .transition().duration(300)
