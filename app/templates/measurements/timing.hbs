@@ -1,2 +1,31 @@
-<h2>Timing</h2>
+<h2>Timing ({{#link-to 'measurements.index'}}Back{{/link-to}})</h2>
+<div class="timing">
+  <div class="location">
+    <h3>do-ams2</h3>
+    {{nvd3-chart data=masterLocationData.do-ams2.combinedTiming showLegend=true height="150px"}}
+  </div>
+  <div class="location">
+    <h3>do-ny2</h3>
+    {{nvd3-chart data=masterLocationData.do-ny2.combinedTiming showLegend=true height="150px"}}
+  </div>
+  <div class="location">
+    <h3>do-sf1</h3>
+    {{nvd3-chart data=masterLocationData.do-sf1.combinedTiming showLegend=true height="150px"}}
+  </div>
+  <div class="location">
+    <h3>do-sin2</h3>
+    {{nvd3-chart data=masterLocationData.do-sin1.combinedTiming showLegend=true height="150px"}}
+  </div>
+  
+</div>
 
+
+
+<!--
+{{!#each location in masterLocationDataArray }}
+  <div>
+    <h3>{{location.name}}</h3>
+    {{!nvd3-chart data=location.combinedTiming showLegend=true}}
+  </div>
+{{!/each}}
+-->

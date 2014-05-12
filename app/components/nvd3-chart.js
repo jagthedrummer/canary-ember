@@ -1,7 +1,7 @@
 var Nvd3ChartComponent = Ember.Component.extend({
 
   chart : null,
-  height : "300px",
+  height : "330px",
   showLegend : true,
   initChart : function(){
     var _this = this;

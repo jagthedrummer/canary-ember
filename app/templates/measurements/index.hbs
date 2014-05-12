@@ -11,15 +11,10 @@
 </div>
 
 <div class="pies">
-  <div class="pie primary">
+  <div class="pie ">
     <h3>Primary IP</h3>
     {{nvd3-donut-chart data=currentPrimaryIpPieData}}
   </div>
-  <div class="pie primary">
-    <h3>Location</h3>
-    {{nvd3-donut-chart data=currentLocationPieData}}
-  </div>
-  
   <div class="pie">
     <h3>Local IP</h3>
     {{nvd3-donut-chart data=currentLocalIpPieData}}
@@ -28,5 +23,10 @@
     <h3>Exit Status</h3>
     {{nvd3-donut-chart data=currentExitPieData}}
   </div>
-  
+  {{#if isOverview }}
+  <div class="pie ">
+    <h3>Location</h3>
+    {{nvd3-donut-chart data=currentLocationPieData}}
+  </div>
+  {{/if}}
 </div>

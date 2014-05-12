@@ -38,6 +38,63 @@ var MeasurementsController = Ember.ArrayController.extend({
     }
   }.observes('model','currentDataName'),
 
+  // Make one pass through the batch and extract various things
+  buildMasterLocationData : function(){
+    var locations = {};
+    var allData = locations['all'] = this.createLocationDataObject('all');
+    var _this = this;
+    this.get('content').forEach(function(item){
+      var locationName = item.get('location');
+      var locationData = locations[locationName];
+      if(!locationData){
+        locationData = locations[locationName] = _this.createLocationDataObject(locationName);
+      }
+      var t = item.get('t');
+      allData.total_time.values.unshift({x:t,y:item.get('total_time')});
+      allData.starttransfer_time.values.unshift({x:t,y:item.get('starttransfer_time')});
+      allData.connect_time.values.unshift({x:t,y:item.get('connect_time')});
+      allData.namelookup_time.values.unshift({x:t,y:item.get('namelookup_time')});
+
+      locationData.total_time.values.unshift({x:t,y:item.get('total_time')});
+      locationData.starttransfer_time.values.unshift({x:t,y:item.get('starttransfer_time')});
+      locationData.connect_time.values.unshift({x:t,y:item.get('connect_time')});
+      locationData.namelookup_time.values.unshift({x:t,y:item.get('namelookup_time')});
+    });
+
+    var keys = Object.keys(locations);
+    keys.forEach(function(locationName) { 
+      var locationData = locations[locationName];
+      locationData.combinedTiming = [
+        locationData.total_time,
+        locationData.starttransfer_time,
+        locationData.connect_time,
+        locationData.namelookup_time
+      ];
+
+    });
+
+    console.log("locations = ",locations);
+    this.set('masterLocationData',locations);
+  }.observes('model'),
+
+  masterLocationDataArray : function(){
+    console.log('setting!');
+    var locationData = this.get('masterLocationData');
+    var keys = Object.keys(locationData);
+
+    var values = keys.map(function(v) { return locationData[v]; });
+    return values;
+  }.property('masterLocationData'),
+
+  createLocationDataObject : function(locationName){
+    return {
+      name : locationName,
+      total_time : {key : 'Total', values : []},
+      starttransfer_time : {key : 'Start Transfer', values : []},
+      connect_time : {key : 'Connect', values : []},
+      namelookup_time : {key : 'Name Lookup', values : []}
+    };
+  },
 
   filterLineChartData : function(source,dataAtt,title){
     var values = this.get(source).map(function(item){
