@@ -2,7 +2,7 @@ var MeasurementsControllerMixin = Ember.Mixin.create({
 
   needs : ['measurements'],
 
-  currentDataName : Ember.computed.alias('controllers.measurements.currentDataName'),
+  currentLocation : Ember.computed.alias('controllers.measurements.currentLocation'),
   currentLineData : Ember.computed.alias('controllers.measurements.currentLineData'),
   currentPrimaryIpPieData : Ember.computed.alias('controllers.measurements.currentPrimaryIpPieData'),
   currentLocalIpPieData : Ember.computed.alias('controllers.measurements.currentLocalIpPieData'),

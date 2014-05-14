@@ -1,5 +1,31 @@
-<h3>Overview ({{controllers.measurements.currentDataName}})</h3>
-{{partial "tabs"}}
+
+<div class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">Overview</span>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Location : {{controllers.measurements.currentLocation}}<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li>{{#link-to 'measurements' (query-params currentLocation="all")}}All Locations{{/link-to}}</li>
+            <li class="divider"></li>
+            {{#each location in uniqLocations}}
+              <li>
+              {{#link-to 'measurements' (query-params currentLocation=location)}}{{location}}{{/link-to}}
+              </li>
+            {{/each}}
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</div>
+
+
 <div class="overview">
   <div class="timing">
     <h3>{{#link-to 'measurements.timing'}}Timing{{/link-to}}</h3>

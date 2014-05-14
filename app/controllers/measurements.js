@@ -2,30 +2,28 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   //model : [],
 
-  queryParams: ['location'],
-
-  location: 'all',
+  queryParams: ['currentLocation'],
 
   sortProperties : ['t'],
 
   sortAscending : true,
 
-  currentDataName : 'overview', // either 'overview' or a location
+  currentLocation : 'all', // either 'overview' or a location
 
   setCurrentDataName : function(name){
-    this.set('currentDataName',name);
+    this.set('currentLocation',name);
   },
 
   isOverview : function(){
-    return (this.get('currentDataName') == 'overview');
-  }.property('currentDataName'),
+    return (this.get('currentLocation') == 'all');
+  }.property('currentLocation'),
 
   setCurrentLineData : function(){
     if( this.get('content.length') == 0 ){
       return;
     }
     var masterLocationData = this.get('masterLocationData');
-    var name = this.get('currentDataName');
+    var name = this.get('currentLocation');
     if( name == 'overview'){
       name = 'all';
     }
@@ -47,7 +45,7 @@ var MeasurementsController = Ember.ArrayController.extend({
       this.set('currentHttpPieData',this.filterPieChartData('content','http_status'));
       this.set('currentLocationPieData',this.filterPieChartData('content','location'));
     }else{
-      var location = this.get('currentDataName').replace('-','');
+      var location = this.get('currentLocation').replace('-','');
       this.set('currentLineData',this.buildLocationLineData(location));
       this.set('currentPrimaryIpPieData',this.filterPieChartData(location,'primary_ip'));
       this.set('currentLocalIpPieData',this.filterPieChartData(location,'local_ip'));
@@ -55,7 +53,7 @@ var MeasurementsController = Ember.ArrayController.extend({
       this.set('currentHttpPieData',this.filterPieChartData(location,'http_status'));
     }
    */
-  }.observes('masterLocationData','currentDataName'),
+  }.observes('masterLocationData','currentLocation'),
 
   // Make one pass through the batch and extract various things
   buildMasterLocationData : function(){
@@ -130,6 +128,9 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   masterLocationDataArray : function(){
     var locationData = this.get('masterLocationData');
+    if(!locationData){
+      return [];
+    }
     var keys = Object.keys(locationData).sort();
 
     var values = keys.map(function(v) { return locationData[v]; });

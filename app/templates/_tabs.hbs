@@ -1,11 +1,12 @@
 <ul class="nav nav-tabs">
   <li>
-    <a href="#" {{action setCurrentDataName 'overview'}}>All Locations</a>
+    {{#link-to 'measurements' (query-params currentLocation="all")}}All{{/link-to}}
   </li>
   <li>
-  <!--{{!#link-to 'measurements' (query-params location="test")}}Test{{!/link-to}}-->
   </li>
   {{#each location in uniqLocations}}
-    <li><a href="#" {{action setCurrentDataName location}}>{{location}}</a></li>
+    <li>
+    {{#link-to 'measurements' (query-params currentLocation=location)}}{{location}}{{/link-to}}
+    </li>
   {{/each}}
 </ul>

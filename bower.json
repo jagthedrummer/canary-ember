@@ -5,7 +5,8 @@
     "jquery": "^1.11.1",
     "qunit": "~1.12.0",
     "ember-qunit": "~0.1.5",
-    "ember": "1.5.1",
+    "ember": "http://builds.emberjs.com/canary/ember.js",
+    "ember-prod": "http://builds.emberjs.com/canary/ember.prod.js",
     "ember-data": "1.0.0-beta.7",
     "ember-resolver": "stefanpenner/ember-jj-abrams-resolver#master",
     "ic-ajax": "~1.x",
@@ -14,5 +15,8 @@
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.1",
     "bootstrap-sass-official": "~3.1.1+2",
     "nvd3": "~1.1.15-beta"
+  },
+  "resolutions": {
+    "ember": "e-tag:f11e697e9"
   }
 }

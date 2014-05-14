@@ -15,6 +15,7 @@ app.import('vendor/d3/d3.js');
 app.import('vendor/nvd3/nv.d3.js');
 app.import('vendor/nvd3/nv.d3.css');
 
+app.import('vendor/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/dropdown.js');
 // If the library that you are including contains AMD or ES6 modules that
 // you would like to import into your application please specify an
 // object with the list of modules as keys along with the exports of each
