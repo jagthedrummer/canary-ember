@@ -1,5 +1,6 @@
+/* global require */
+
 var Application = require('canary-ember/app')['default'];
-var Router = require('canary-ember/router')['default'];
 
 export default function startApp(attrs) {
   var App;
@@ -10,10 +11,6 @@ export default function startApp(attrs) {
     LOG_ACTIVE_GENERATION:false,
     LOG_VIEW_LOOKUPS: false
   }, attrs); // but you can override;
-
-  Router.reopen({
-    location: 'none'
-  });
 
   Ember.run(function(){
     App = Application.create(attributes);

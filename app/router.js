@@ -1,5 +1,5 @@
 var Router = Ember.Router.extend({
-  location: 'hash'//'auto'
+  location: ENV.locationType
 });
 
 Router.map(function() {
