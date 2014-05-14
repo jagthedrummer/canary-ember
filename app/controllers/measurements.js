@@ -2,6 +2,10 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   //model : [],
 
+  queryParams: ['location'],
+
+  location: 'all',
+
   sortProperties : ['t'],
 
   sortAscending : true,
