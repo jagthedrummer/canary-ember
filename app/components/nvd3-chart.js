@@ -7,7 +7,7 @@ var Nvd3ChartComponent = Ember.Component.extend({
     var _this = this;
     nv.addGraph(function() {
       var chart = nv.models.lineChart()
-                    .margin({left: 30, right:30})  //Adjust chart margins to give the x-axis some breathing room.
+                    .margin({left: 50, right:30})  //Adjust chart margins to give the x-axis some breathing room.
                     .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
                     .transitionDuration(350)  //how fast do you want the lines to transition?
                     .showLegend(_this.get('showLegend'))       //Show the legend, allowing users to turn on/off line series.

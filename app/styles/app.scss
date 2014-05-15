@@ -113,6 +113,7 @@ body {
   .pie{
     width:24%;
     float:left;
+    margin-right:1%;
     &.primary{
       width:40%;
     }
@@ -123,6 +124,7 @@ body {
   .timing{
     width:70%;
     float:left;
+    margin-right:1%;
   }
   .http-response{
     width:29%;
@@ -141,6 +143,13 @@ body {
 .http-responses{
   .location{
     width:24%;
+    margin-right:1%;
     float:left;
   }
+}
+
+.nvd3-chart-component, .nvd3-donut-chart-component{
+  border:1px solid #dfdfdf;
+  background:#fafafa;
+  border-radius:5px;
 }
