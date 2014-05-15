@@ -13,6 +13,8 @@ var MeasurementsControllerMixin = Ember.Mixin.create({
   masterLocationDataArray : Ember.computed.alias('controllers.measurements.masterLocationDataArray'),
   isOverview : Ember.computed.alias('controllers.measurements.isOverview'),
   uniqLocations : Ember.computed.alias('controllers.measurements.uniqLocations'),
+  runningTotals : Ember.computed.alias('controllers.measurements.runningTotals'),
+  currentRunningTotalsData : Ember.computed.alias('controllers.measurements.currentRunningTotalsData'),
   setCurrentDataName : function(name){
     this.get('controllers.measurements').setCurrentDataName(name);
   }

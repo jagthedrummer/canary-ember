@@ -26,7 +26,10 @@
 </div>
 
 
-<div class="overview">
+
+
+
+<div class="overview clearfix">
   <div class="timing">
     <h3>{{#link-to 'measurements.timing'}}Timing{{/link-to}}</h3>
     {{nvd3-chart data=currentLineData showLegend=true}}
@@ -37,6 +40,12 @@
   </div>
 </div>
 
+<hr/>
+
+<h3>Measurments per 3 min </h3>
+{{nvd3-chart dataBinding=currentRunningTotalsData showLegend=true height="130px"}}
+
+<hr/>
 <div class="pies">
   <div class="pie ">
     <h3>Primary IP</h3>

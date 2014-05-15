@@ -14,6 +14,8 @@ var MeasurementsController = Ember.ArrayController.extend({
     this.set('currentLocation',name);
   },
 
+  
+
   isOverview : function(){
     return (this.get('currentLocation') == 'all');
   }.property('currentLocation'),
@@ -38,6 +40,61 @@ var MeasurementsController = Ember.ArrayController.extend({
     
   }.observes('masterLocationData','currentLocation'),
 
+ 
+  currentRunningTotalsData : [],
+
+  
+
+  updateRunningTotals : function(){
+    var runningTotals = this.get('runningTotals') || {};
+    var masterLocationData = this.get('masterLocationData');
+    var _this = this;
+
+    var keys = Object.keys(masterLocationData).sort();
+    keys.forEach(function(locationName) {
+      var locationData = masterLocationData[locationName];
+      var totalsData =  runningTotals[locationName] || (runningTotals[locationName] = _this.createRunningTotalsObject(locationName));
+      totalsData.measurements.pushObject({series:0,x:((new Date()).getTime()/1000),y: locationData.runningTotalData.measurements});
+      if(totalsData.measurements.length > 20){
+        totalsData.measurements.shiftObject();
+      }
+    });
+
+    this.set('runningTotals',runningTotals);
+
+    if(runningTotals.all.measurements.length < 2){ return; }
+    this.setCurrentRunningTotalsData();
+
+  }.observes('masterLocationData'),
+
+  
+  resetRunningTotals : function(){
+    this.set('runningTotals',[]);
+    this.set('currentRunningTotalsData',[]);
+  }.observes('currentLocation'),
+
+  setCurrentRunningTotalsData : function(){
+    var runningTotals = this.get('runningTotals');
+    var data = [];
+
+    var keys = Object.keys(runningTotals).sort();
+    keys.forEach(function(locationName) {
+      data.push({ key : locationName,
+               values : runningTotals[locationName].measurements.concat([])
+             });
+    });
+            
+    this.set('currentRunningTotalsData',data);
+  },
+
+  createRunningTotalsObject : function(name){
+    return {
+      name : name,
+      measurements : Ember.A()//Ember.A([{key : 'Measurements', values : Ember.A()}])
+    };
+  },
+
+
   // Make one pass through the batch and extract various things
   buildMasterLocationData : function(){
     var locations = {};
@@ -53,6 +110,9 @@ var MeasurementsController = Ember.ArrayController.extend({
         locationData = locations[locationName] = _this.createLocationDataObject(locationName);
       }
       var t = item.get('t');
+
+      allData.runningTotalData.measurements += 1;
+      locationData.runningTotalData.measurements += 1;
 
       lineAttNames.forEach(function(attName){
         allData[attName].values.unshift({x:t,y:item.get(attName)});
@@ -94,7 +154,6 @@ var MeasurementsController = Ember.ArrayController.extend({
       });
     }); // keys.forEach
     locations.all.combinedTiming = allCombinedData;
-    console.log('masterLocationData = ', locations);
     this.set('masterLocationData',locations);
   }.observes('model'),
 
@@ -130,7 +189,10 @@ var MeasurementsController = Ember.ArrayController.extend({
       local_ip : {},
       exit_status : {},
       http_status : {},
-      location : {}
+      location : {},
+      runningTotalData : {
+        measurements : 0
+      }
     };
   },
 
