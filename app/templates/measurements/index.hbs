@@ -42,7 +42,13 @@
 
 
 <h3>Measurments per 3 min </h3>
-{{nvd3-chart dataBinding=currentRunningTotalsData showLegend=true height="130px"}}
+{{nvd3-chart data=currentRunningTotalsData showLegend=true height="130px"}}
+
+<h3>HTTP Status per 3 min </h3>
+{{nvd3-chart data=currentRunningTotalsHttpData showLegend=true height="130px"}}
+
+
+
 
 <div class="pies">
   <div class="pie ">

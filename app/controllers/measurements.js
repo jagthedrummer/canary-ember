@@ -42,24 +42,37 @@ var MeasurementsController = Ember.ArrayController.extend({
 
  
   currentRunningTotalsData : [],
+  currentRunningTotalsHttpData : [],
 
   
-
+  // update the arrays of running totals
   updateRunningTotals : function(){
     var runningTotals = this.get('runningTotals') || {};
     var masterLocationData = this.get('masterLocationData');
     var _this = this;
 
-    var keys = Object.keys(masterLocationData).sort();
-    keys.forEach(function(locationName) {
+    var locationNames = Object.keys(masterLocationData).sort();
+    locationNames.forEach(function(locationName) {
       var locationData = masterLocationData[locationName];
       var totalsData =  runningTotals[locationName] || (runningTotals[locationName] = _this.createRunningTotalsObject(locationName));
-      totalsData.measurements.pushObject({series:0,x:((new Date()).getTime()/1000),y: locationData.runningTotalData.measurements});
+      var xTime = ((new Date()).getTime()/1000);
+      totalsData.measurements.pushObject({series:0,x:xTime,y: locationData.runningTotalData.measurements});
       if(totalsData.measurements.length > 20){
         totalsData.measurements.shiftObject();
       }
+
+      var statuses = Object.keys(locationData.runningTotalData.http_status).sort();
+      statuses.forEach(function(status){
+        console.log('running for status = ',status);
+        var statusArray = totalsData.http_status[status] || (totalsData.http_status[status] = Ember.A());
+        statusArray.pushObject({series:0,x:xTime,y: locationData.runningTotalData.http_status[status]});
+        if(statusArray.length > 20){
+          statusArray.shiftObject();
+        }
+      });
     });
 
+    console.log(runningTotals);
     this.set('runningTotals',runningTotals);
 
     if(runningTotals.all.measurements.length < 2){ return; }
@@ -67,30 +80,51 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   }.observes('masterLocationData'),
 
-  
   resetRunningTotals : function(){
     this.set('runningTotals',[]);
     this.set('currentRunningTotalsData',[]);
+    this.set('currentRunningTotalsHttpData',[]);
   }.observes('currentLocation'),
 
+  // build the structure that nvd3 needs and set it in an attribute
   setCurrentRunningTotalsData : function(){
     var runningTotals = this.get('runningTotals');
-    var data = [];
+    var currentLocation = this.get('currentLocation');
+    var measurementsData = [];
 
-    var keys = Object.keys(runningTotals).sort();
-    keys.forEach(function(locationName) {
-      data.push({ key : locationName,
-               values : runningTotals[locationName].measurements.concat([])
-             });
+    if(currentLocation == 'all'){
+      var keys = Object.keys(runningTotals).sort();
+      keys.forEach(function(locationName) {
+        measurementsData.push({
+          key : locationName,
+          values : runningTotals[locationName].measurements.concat([])
+        });
+      });
+      this.set('currentRunningTotalsData',measurementsData);
+    }else{
+      this.set('currentRunningTotalsData',[{
+        key : "Measurements",
+        values : runningTotals[currentLocation].measurements.concat([])
+      }]);
+    }
+    var statusData = [];
+    var statuses = Object.keys(runningTotals[currentLocation].http_status).sort();
+    statuses.forEach(function(status){
+      statusData.push({
+        key : status,
+        values : runningTotals[currentLocation].http_status[status].concat([])
+      });
     });
-            
-    this.set('currentRunningTotalsData',data);
+    console.log('statusData = ',statusData);
+    this.set('currentRunningTotalsHttpData',statusData);
+
   },
 
   createRunningTotalsObject : function(name){
     return {
       name : name,
-      measurements : Ember.A()//Ember.A([{key : 'Measurements', values : Ember.A()}])
+      measurements : Ember.A(),//Ember.A([{key : 'Measurements', values : Ember.A()}])
+      http_status : {}
     };
   },
 
@@ -103,7 +137,7 @@ var MeasurementsController = Ember.ArrayController.extend({
     var pieAttNames = ['local_ip','primary_ip','exit_status','http_status','location'];
     var lineAttNames = ['total_time','starttransfer_time','connect_time','namelookup_time'];
 
-    this.get('content').forEach(function(item){
+    this.get('content').forEach(function(item,index){
       var locationName = item.get('location');
       var locationData = locations[locationName];
       if(!locationData){
@@ -113,6 +147,20 @@ var MeasurementsController = Ember.ArrayController.extend({
 
       allData.runningTotalData.measurements += 1;
       locationData.runningTotalData.measurements += 1;
+
+
+      if(index==0){ console.log('item = ',item); }
+
+      var http_status = item.get('http_status');
+      if(!allData.runningTotalData.http_status[http_status]){
+        allData.runningTotalData.http_status[http_status] = 0;
+      }
+      allData.runningTotalData.http_status[http_status] += 1;
+      if(!locationData.runningTotalData.http_status[http_status]){
+        locationData.runningTotalData.http_status[http_status] = 0;
+      }
+      locationData.runningTotalData.http_status[http_status] += 1;
+
 
       lineAttNames.forEach(function(attName){
         allData[attName].values.unshift({x:t,y:item.get(attName)});
@@ -191,7 +239,8 @@ var MeasurementsController = Ember.ArrayController.extend({
       http_status : {},
       location : {},
       runningTotalData : {
-        measurements : 0
+        measurements : 0,
+        http_status : {}
       }
     };
   },
