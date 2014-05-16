@@ -95,6 +95,7 @@ var MeasurementsController = Ember.ArrayController.extend({
     if(currentLocation == 'all'){
       var keys = Object.keys(runningTotals).sort();
       keys.forEach(function(locationName) {
+        if(locationName == 'all'){return;}
         measurementsData.push({
           key : locationName,
           values : runningTotals[locationName].measurements.concat([])
@@ -103,7 +104,7 @@ var MeasurementsController = Ember.ArrayController.extend({
       this.set('currentRunningTotalsData',measurementsData);
     }else{
       this.set('currentRunningTotalsData',[{
-        key : "Measurements",
+        key : currentLocation,
         values : runningTotals[currentLocation].measurements.concat([])
       }]);
     }

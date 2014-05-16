@@ -32,20 +32,30 @@
 <div class="overview clearfix">
   <div class="timing">
     <h3>{{#link-to 'measurements.timing'}}Timing{{/link-to}}</h3>
-    {{nvd3-chart data=currentLineData showLegend=true}}
+    {{nvd3-chart data=currentLineData showLegend=true height="200px"}}
+  </div>
+  <div class="http-response-history">
+    <h3>{{#link-to 'measurements.response_codes'}}Http Status History{{/link-to}}</h3>
+    {{nvd3-chart data=currentRunningTotalsHttpData showLegend=true height="200px"}}
   </div>
   <div class="http-response">
     <h3>{{#link-to 'measurements.response_codes'}}Http Status{{/link-to}}</h3>
-    {{nvd3-donut-chart data=currentHttpPieData}}
+    {{nvd3-donut-chart data=currentHttpPieData height="200px"}}
+  </div>
+  <div class="location-history">
+    <h3>Location history</h3>
+    {{nvd3-chart data=currentRunningTotalsData showLegend=true height="200px"}}
+  </div>
+  <div class="locations">
+    <h3>Location</h3>
+    {{nvd3-donut-chart data=currentLocationPieData height="200px"}}
   </div>
 </div>
 
 
-<h3>Measurments per 3 min </h3>
-{{nvd3-chart data=currentRunningTotalsData showLegend=true height="130px"}}
+    
 
-<h3>HTTP Status per 3 min </h3>
-{{nvd3-chart data=currentRunningTotalsHttpData showLegend=true height="130px"}}
+
 
 
 
@@ -63,10 +73,5 @@
     <h3>Exit Status</h3>
     {{nvd3-donut-chart data=currentExitPieData}}
   </div>
-  {{#if isOverview }}
-  <div class="pie ">
-    <h3>Location</h3>
-    {{nvd3-donut-chart data=currentLocationPieData}}
-  </div>
-  {{/if}}
+  
 </div>

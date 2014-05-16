@@ -2,6 +2,8 @@ var Nvd3DonutChartComponent = Ember.Component.extend({
   
   data : [],
 
+  height : "330px",
+
   didInsertElement: function() {
     Ember.run.once(this, 'initChart');
   },
@@ -42,6 +44,7 @@ var Nvd3DonutChartComponent = Ember.Component.extend({
 
   updateChart : function(){
     if (this.get('chart') && this.get('data') ) {
+      this.$('svg.donut').css({height:this.get('height')});
       d3.select(this.$('svg')[0])
         .datum(this.get('data'))
         .transition().duration(300)

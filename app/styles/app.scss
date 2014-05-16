@@ -122,11 +122,13 @@ body {
 
 .overview{
   .timing{
+  }
+  .http-response-history, .location-history{
     width:70%;
     float:left;
     margin-right:1%;
   }
-  .http-response{
+  .http-response, .locations{
     width:29%;
     float:left;
   }
