@@ -144,9 +144,18 @@ body {
 
 .http-responses{
   .location{
-    width:24%;
-    margin-right:1%;
-    float:left;
+    @extend .clearfix;
+    .history{
+      width:75%;
+      margin-right:1%;
+      float:left;
+    }
+    .pie{
+      width:24%;
+      float:left;
+    }
+
+
   }
 }
 

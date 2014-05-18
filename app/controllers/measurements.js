@@ -76,6 +76,7 @@ var MeasurementsController = Ember.ArrayController.extend({
     this.set('runningTotals',runningTotals);
 
     if(runningTotals.all.measurements.length < 2){ return; }
+    this.buildRunningTotalsStructures();
     this.setCurrentRunningTotalsData();
 
   }.observes('masterLocationData'),
@@ -86,9 +87,37 @@ var MeasurementsController = Ember.ArrayController.extend({
     this.set('currentRunningTotalsHttpData',[]);
   }.observes('currentLocation'),
 
-  // build the structure that nvd3 needs and set it in an attribute
+  // build the structure that nvd3 needs
+  buildRunningTotalsStructures : function(){
+    var runningTotals = this.get('runningTotals');
+    var runningTotalsData = {};
+
+    var keys = Object.keys(runningTotals).sort();
+    keys.forEach(function(locationName){
+      runningTotalsData[locationName] = {};
+      runningTotalsData[locationName].measurements = [{
+        key: 'measurements',
+        values: runningTotals[locationName].measurements.concat([])
+      }];
+      runningTotalsData[locationName].http_status = [];
+      var statuses = Object.keys(runningTotals[locationName].http_status).sort();
+      statuses.forEach(function(status){
+        runningTotalsData[locationName].http_status.push({
+          key: status,
+          values: runningTotals[locationName].http_status[status]
+        });
+      });
+
+    });
+
+    console.log("runningTotalsData = ", runningTotalsData);
+    this.set('runningTotalsData',runningTotalsData);
+  },
+
+   // set the nvd3 structures in an attribute
   setCurrentRunningTotalsData : function(){
     var runningTotals = this.get('runningTotals');
+    
     var currentLocation = this.get('currentLocation');
     var measurementsData = [];
 
