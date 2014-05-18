@@ -81,8 +81,8 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   resetRunningTotals : function(){
     this.set('runningTotals',[]);
-    this.set('currentRunningTotalsData',[]);
-    this.set('currentRunningTotalsHttpData',[]);
+    //this.set('currentRunningTotalsData',[]);
+    //this.set('currentRunningTotalsHttpData',[]);
   }.observes('currentLocation'),
 
   // build the structure that nvd3 needs
