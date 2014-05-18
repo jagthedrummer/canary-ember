@@ -5,6 +5,7 @@ var Nvd3ChartComponent = Ember.Component.extend({
   showLegend : true,
   initChart : function(){
     var _this = this;
+    this.$('svg.line').css({height:this.get('height')});
     nv.addGraph(function() {
       var chart = nv.models.lineChart()
                     .margin({left: 50, right:30})  //Adjust chart margins to give the x-axis some breathing room.

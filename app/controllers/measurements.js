@@ -63,7 +63,6 @@ var MeasurementsController = Ember.ArrayController.extend({
 
       var statuses = Object.keys(locationData.runningTotalData.http_status).sort();
       statuses.forEach(function(status){
-        console.log('running for status = ',status);
         var statusArray = totalsData.http_status[status] || (totalsData.http_status[status] = Ember.A());
         statusArray.pushObject({series:0,x:xTime,y: locationData.runningTotalData.http_status[status]});
         if(statusArray.length > 20){
@@ -72,7 +71,6 @@ var MeasurementsController = Ember.ArrayController.extend({
       });
     });
 
-    console.log(runningTotals);
     this.set('runningTotals',runningTotals);
 
     if(runningTotals.all.measurements.length < 2){ return; }
@@ -110,13 +108,13 @@ var MeasurementsController = Ember.ArrayController.extend({
 
     });
 
-    console.log("runningTotalsData = ", runningTotalsData);
     this.set('runningTotalsData',runningTotalsData);
   },
 
    // set the nvd3 structures in an attribute
   setCurrentRunningTotalsData : function(){
     var runningTotals = this.get('runningTotals');
+    var runningTotalsData = this.get('runningTotalsData');
     
     var currentLocation = this.get('currentLocation');
     var measurementsData = [];
@@ -132,21 +130,9 @@ var MeasurementsController = Ember.ArrayController.extend({
       });
       this.set('currentRunningTotalsData',measurementsData);
     }else{
-      this.set('currentRunningTotalsData',[{
-        key : currentLocation,
-        values : runningTotals[currentLocation].measurements.concat([])
-      }]);
+      this.set('currentRunningTotalsData',runningTotalsData[currentLocation].measurements);
     }
-    var statusData = [];
-    var statuses = Object.keys(runningTotals[currentLocation].http_status).sort();
-    statuses.forEach(function(status){
-      statusData.push({
-        key : status,
-        values : runningTotals[currentLocation].http_status[status].concat([])
-      });
-    });
-    console.log('statusData = ',statusData);
-    this.set('currentRunningTotalsHttpData',statusData);
+    this.set('currentRunningTotalsHttpData',runningTotalsData[currentLocation].http_status);
 
   },
 
@@ -179,7 +165,6 @@ var MeasurementsController = Ember.ArrayController.extend({
       locationData.runningTotalData.measurements += 1;
 
 
-      if(index==0){ console.log('item = ',item); }
 
       var http_status = item.get('http_status');
       if(!allData.runningTotalData.http_status[http_status]){

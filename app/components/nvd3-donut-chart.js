@@ -23,6 +23,7 @@ var Nvd3DonutChartComponent = Ember.Component.extend({
   initChart : function() {
     var data = this.get('data') || this.get('sampleData');
     var elem = this.$('svg')[0];
+    this.$('svg').css({height:this.get('height')});
     var _this = this;
     nv.addGraph(function() {
       var chart = nv.models.pieChart()
