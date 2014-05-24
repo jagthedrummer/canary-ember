@@ -14,35 +14,11 @@
 </div>
 
 
-
-
 <div class="timing">
+{{#each location in masterLocationDataArray }}
   <div class="location">
-    <h3>{{#link-to 'measurements' (query-params currentLocation="do-ams2")}}do-ams2{{/link-to}}</h3>
-    {{nvd3-chart data=masterLocationData.do-ams2.combinedTiming showLegend=true height="150px"}}
+    <h3>{{#link-to 'measurements' (query-params currentLocation=location.name)}}{{location.name}}{{/link-to}}</h3>
+    {{nvd3-chart data=location.combinedTiming showLegend=true height="150px"}}
   </div>
-  <div class="location">
-    <h3>{{#link-to 'measurements' (query-params currentLocation="do-ny2")}}do-ny2{{/link-to}}</h3>
-    {{nvd3-chart data=masterLocationData.do-ny2.combinedTiming showLegend=true height="150px"}}
-  </div>
-  <div class="location">
-    <h3>{{#link-to 'measurements' (query-params currentLocation="do-sf1")}}do-sf1{{/link-to}}</h3>
-    {{nvd3-chart data=masterLocationData.do-sf1.combinedTiming showLegend=true height="150px"}}
-  </div>
-  <div class="location">
-    <h3>{{#link-to 'measurements' (query-params currentLocation="do-sin1")}}do-sin1{{/link-to}}</h3>
-    {{nvd3-chart data=masterLocationData.do-sin1.combinedTiming showLegend=true height="150px"}}
-  </div>
-  
+{{/each}}
 </div>
-
-
-
-<!--
-{{!#each location in masterLocationDataArray }}
-  <div>
-    <h3>{{location.name}}</h3>
-    {{!nvd3-chart data=location.combinedTiming showLegend=true}}
-  </div>
-{{!/each}}
--->

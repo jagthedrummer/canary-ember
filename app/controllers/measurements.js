@@ -193,12 +193,12 @@ var MeasurementsController = Ember.ArrayController.extend({
     var allCombinedData = [];
     keys.forEach(function(locationName) {
       var locationData = locations[locationName];
-      locationData.combinedTiming = [
+      locationData.combinedTiming = Ember.A([
         locationData.total_time,
         locationData.starttransfer_time,
         locationData.connect_time,
         locationData.namelookup_time
-      ];
+      ]);
 
       if(locationName != 'all'){
         allCombinedData.push( {"key":locationName, values:  locationData.total_time.values});
@@ -230,19 +230,44 @@ var MeasurementsController = Ember.ArrayController.extend({
     info.value += 1;
   },
 
-  masterLocationDataArray : function(){
+  setMasterLocationDataArray : function(){
+    var locationArray = this.get('masterLocationDataArray');
+    if( !locationArray ){
+      locationArray = [];
+    }
+
     var locationData = this.get('masterLocationData');
+    var runningTotalsData = this.get('runningTotalsData');
     if(!locationData){
       return [];
     }
+
+
     var keys = Object.keys(locationData).sort();
 
-    var values = keys.map(function(v) { return locationData[v]; });
-    return values;
-  }.property('masterLocationData'),
+    keys.forEach(function(key,index){
+      if(key == "all"){return;}
+      var location = locationArray.filterBy('name',key)[0];
+      if(location){
+        location.set('combinedTiming', locationData[key].combinedTiming);
+      }else{
+        location = locationData[key]
+        locationArray.pushObject( location );
+      }
+      if(runningTotalsData && runningTotalsData[key]){
+        location.set('runningTotals',runningTotalsData[key]);
+      }
+
+    });
+
+
+    this.set('masterLocationDataArray',locationArray);
+    //var values = keys.map(function(v) { return locationData[v]; });
+
+  }.observes('masterLocationData'),
 
   createLocationDataObject : function(locationName){
-    return {
+    return Ember.Object.create({
       name : locationName,
       total_time : {key : 'Total', values : []},
       starttransfer_time : {key : 'Start Transfer', values : []},
@@ -257,7 +282,7 @@ var MeasurementsController = Ember.ArrayController.extend({
         measurements : 0,
         http_status : {}
       }
-    };
+    });
   },
 
   
