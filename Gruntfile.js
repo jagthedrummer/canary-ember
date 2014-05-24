@@ -16,22 +16,11 @@ module.exports = function(grunt) {
           "Expires": new Date(Date.now() + 63072000000).toUTCString()
         }
       },
-      dev: {
-        // These options override the defaults
-        options: {
-          encodePaths: false,
-          maxOperations: 20
-        },
-        // Files to be uploaded.
+      prod: {
         upload: [
           {
-            // Wildcards are valid *for uploads only* until I figure out a good implementation
-            // for downloads.
-            src: 'dist/*',
-
-            // But if you use wildcards, make sure your destination is a directory.
-            dest: '',
-
+            src: 'dist/index.html',
+            dest: 'index.html',
             options: {
               headers: {
                 // 1 minute cache policy (1000 * 60)
@@ -41,11 +30,7 @@ module.exports = function(grunt) {
             }
           },
           {
-            // Wildcards are valid *for uploads only* until I figure out a good implementation
-            // for downloads.
             src: 'dist/assets/*',
-
-            // But if you use wildcards, make sure your destination is a directory.
             dest: 'assets/'
           }
         ],
