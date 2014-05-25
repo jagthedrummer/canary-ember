@@ -32,6 +32,10 @@ module.exports = function(grunt) {
           {
             src: 'dist/assets/*',
             dest: 'assets/'
+          },
+          {
+            src: 'dist/assets/bootstrap/*',
+            dest: 'assets/bootstrap'
           }
         ],
 
