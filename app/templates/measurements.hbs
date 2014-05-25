@@ -1,4 +1,12 @@
+<h1 class="page-header">
+  {{check.url}}
 
+  <span {{bind-attr class="updateStatus :play-pause-button :btn :btn-default"}} {{action toggleUpdateStatus}}>
+    <span class="glyphicon glyphicon-pause"></span>
+    <span class="glyphicon glyphicon-play"></span>
+  </span>
+
+</h1>
 
 {{outlet}}
 

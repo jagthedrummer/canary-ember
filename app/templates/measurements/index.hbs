@@ -2,7 +2,7 @@
 <div class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
-      <span class="navbar-brand">Overview</span>
+      <span class="navbar-brand"><span class="glyphicon glyphicon-dashboard"></span> Overview</span>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -31,15 +31,15 @@
 
 <div class="overview clearfix">
   <div class="timing">
-    <h3>{{#link-to 'measurements.timing'}}Timing{{/link-to}}</h3>
+    <h3>{{#link-to 'measurements.timing'}}<span class="glyphicon glyphicon-time"></span> Timing{{/link-to}}</h3>
     {{nvd3-chart data=currentLineData showLegend=true height="200px"}}
   </div>
   <div class="http-response-history">
-    <h3>{{#link-to 'measurements.response_codes'}}Http Status History{{/link-to}}</h3>
+    <h3>{{#link-to 'measurements.response_codes'}}<span class="glyphicon glyphicon-cutlery"></span> Http Status History{{/link-to}}</h3>
     {{nvd3-chart data=currentRunningTotalsHttpData showLegend=true height="200px"}}
   </div>
   <div class="http-response">
-    <h3>{{#link-to 'measurements.response_codes'}}Http Status{{/link-to}}</h3>
+    <h3>{{#link-to 'measurements.response_codes'}}<span class="glyphicon glyphicon-cutlery"></span> Http Status{{/link-to}}</h3>
     {{nvd3-donut-chart data=currentHttpPieData height="200px"}}
   </div>
   <div class="location-history">

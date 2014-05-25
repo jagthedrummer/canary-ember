@@ -1,21 +1,17 @@
 var CheckRoute = Ember.Route.extend({
 
   model : function(params){
+    // Need to save params.check_id so that we have it in setupController
     this.set('checkId',params.check_id);
-    /*
-    var checks = this.controllerFor('checks');
-    var check = checks.filter(function(item, index, self){
-      return item.get('id') === params.check_id;
-    })[0];
-    return check;
-    */
     return params.check_id;
   },
 
+  
   setupController : function(model,controller){
     this._super(model,controller);
 
-
+    // Since we can't pull JSON for a single check we need to grab the
+    // array from the checks controller and filter it manually.
     var checkId = this.get('checkId');
     var checks = this.controllerFor('checks');
     var check = checks.filter(function(item){
@@ -23,15 +19,6 @@ var CheckRoute = Ember.Route.extend({
     })[0];
     this.controller.set('model',check);
 
-    var measurementController = this.controllerFor('measurements');
-    measurementController.set('check_id',model.get('id'));
-    //measurementController.send('updateContent');
-    measurementController.updateContent();
-    /*
-    this.store.find('measurement',{check_id:model.get('id')}).then(function(measurements){
-      measurementController.set('model',measurements);
-    });
-   */
   }
 
 });

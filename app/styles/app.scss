@@ -161,3 +161,15 @@ body {
   background:#fafafa;
   border-radius:5px;
 }
+
+.play-pause-button{
+  float:right;
+}
+
+.play-pause-button.playing{
+  .glyphicon-play{ display:none; }
+}
+
+.play-pause-button.paused{
+  .glyphicon-pause{ display:none; }
+}

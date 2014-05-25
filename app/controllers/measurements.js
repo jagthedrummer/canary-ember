@@ -1,6 +1,9 @@
 var MeasurementsController = Ember.ArrayController.extend({
-
+  
+  needs : ['check'],
   //model : [],
+  
+  check : Ember.computed.alias('controllers.check'),
 
   queryParams: ['currentLocation'],
 
@@ -14,7 +17,8 @@ var MeasurementsController = Ember.ArrayController.extend({
     this.set('currentLocation',name);
   },
 
-  
+  updateStatus : 'playing',
+
 
   isOverview : function(){
     return (this.get('currentLocation') === 'all');
@@ -303,8 +307,9 @@ var MeasurementsController = Ember.ArrayController.extend({
 
 
   updateContent : function(){
+    if(this.get('updateStatus') === 'paused'){ return; }
     var _this = this;
-    this.store.find('measurement',{check_id:this.get('check_id')}).then(function(measurements){
+    this.store.find('measurement',{check_id:this.get('check.id')}).then(function(measurements){
       _this.set('model',measurements);
     });
     var timeout = this.get('timeout');
@@ -313,6 +318,17 @@ var MeasurementsController = Ember.ArrayController.extend({
     }
     timeout = setTimeout($.proxy(this.updateContent,this),3 * 1000);
     this.set('timeout',timeout);
+  },
+
+  actions : {
+    toggleUpdateStatus : function(){
+      if( this.get('updateStatus') === 'playing' ){
+        this.set('updateStatus', 'paused');
+      }else{
+        this.set('updateStatus', 'playing');
+        this.updateContent();
+      }
+    }
   }
 
 
