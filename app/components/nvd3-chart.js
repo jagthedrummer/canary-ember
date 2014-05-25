@@ -19,7 +19,7 @@ var Nvd3ChartComponent = Ember.Component.extend({
       
       chart.xAxis
           .tickFormat(function(d) { 
-            return d3.time.format('%X')(new Date(d * 1000)) 
+            return d3.time.format('%X')(new Date(d * 1000));
       });
 
       chart.yAxis     //Chart y-axis settings
@@ -34,7 +34,7 @@ var Nvd3ChartComponent = Ember.Component.extend({
       //    .call(chart);          //Finally, render the chart!
 
       //Update the chart when window resizes.
-      nv.utils.windowResize(function() { chart.update() });
+      nv.utils.windowResize(function() { chart.update(); });
       _this.set('chart',chart);
       _this.updateChart();
       return chart;

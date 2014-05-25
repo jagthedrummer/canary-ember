@@ -17,16 +17,16 @@ var MeasurementsController = Ember.ArrayController.extend({
   
 
   isOverview : function(){
-    return (this.get('currentLocation') == 'all');
+    return (this.get('currentLocation') === 'all');
   }.property('currentLocation'),
 
   setCurrentLineData : function(){
-    if( this.get('content.length') == 0 ){
+    if( this.get('content.length') === 0 ){
       return;
     }
     var masterLocationData = this.get('masterLocationData');
     var name = this.get('currentLocation');
-    if( name == 'overview'){
+    if( name === 'overview'){
       name = 'all';
     }
     var locationData = masterLocationData[name];
@@ -119,10 +119,10 @@ var MeasurementsController = Ember.ArrayController.extend({
     var currentLocation = this.get('currentLocation');
     var measurementsData = [];
 
-    if(currentLocation == 'all'){
+    if(currentLocation === 'all'){
       var keys = Object.keys(runningTotals).sort();
       keys.forEach(function(locationName) {
-        if(locationName == 'all'){return;}
+        if(locationName === 'all'){return;}
         measurementsData.push({
           key : locationName,
           values : runningTotals[locationName].measurements.concat([])
@@ -153,7 +153,7 @@ var MeasurementsController = Ember.ArrayController.extend({
     var pieAttNames = ['local_ip','primary_ip','exit_status','http_status','location'];
     var lineAttNames = ['total_time','starttransfer_time','connect_time','namelookup_time'];
 
-    this.get('content').forEach(function(item,index){
+    this.get('content').forEach(function(item){
       var locationName = item.get('location');
       var locationData = locations[locationName];
       if(!locationData){
@@ -200,7 +200,7 @@ var MeasurementsController = Ember.ArrayController.extend({
         locationData.namelookup_time
       ]);
 
-      if(locationName != 'all'){
+      if(locationName !== 'all'){
         allCombinedData.push( {"key":locationName, values:  locationData.total_time.values});
       }
 
@@ -245,13 +245,13 @@ var MeasurementsController = Ember.ArrayController.extend({
 
     var keys = Object.keys(locationData).sort();
 
-    keys.forEach(function(key,index){
-      if(key == "all"){return;}
+    keys.forEach(function(key){
+      if(key === "all"){return;}
       var location = locationArray.filterBy('name',key)[0];
       if(location){
         location.set('combinedTiming', locationData[key].combinedTiming);
       }else{
-        location = locationData[key]
+        location = locationData[key];
         locationArray.pushObject( location );
       }
       if(runningTotalsData && runningTotalsData[key]){
@@ -292,7 +292,7 @@ var MeasurementsController = Ember.ArrayController.extend({
   locations : function(){
     var locations = [];
     this.get('content').forEach(function(item){
-      locations.push(item.get('location'))
+      locations.push(item.get('location'));
     });
     return locations;
   }.property('model'),

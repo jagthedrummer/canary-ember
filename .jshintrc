@@ -4,12 +4,15 @@
     "window": true,
     "location": true,
     "setTimeout": true,
+    "clearTimeout": true,
     "Ember": true,
     "Em": true,
     "DS": true,
     "$": true,
     "ENV": true,
-    "module": true
+    "module": true,
+    "d3":true,
+    "nv":true
   },
   "node" : false,
   "browser" : false,
