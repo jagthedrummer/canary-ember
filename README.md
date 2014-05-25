@@ -38,6 +38,15 @@ canary-ember> npm install
 canary-ember> bower install 
 ```
 
+When bower asks you what version of ember to use you should pick option
+number 1.  We are currently running with the latest canary build of ember.
+('canary' in ember is a code word for their beta builds.  Funny
+coincidence that this project is also called canary.) When query-params
+ships in a production build (I think scheduled for 1.7) we can lock down
+the version to something more stable.
+
+Due 
+
 Build it...
 ```sh
 canary-ember> ember build
