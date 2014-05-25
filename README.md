@@ -40,17 +40,21 @@ canary-ember> bower install
 
 Build it...
 ```sh
-canary-ember> npm build
+canary-ember> ember build
 ```
 
 Test it...
 ```sh
-canary-ember> [sudo] npm test
+canary-ember> ember test
 ```
 
 Run it...
 ```sh
-canary-ember> [sudo] npm start
+canary-ember> ember server
 ```
 
+
 Open your browser to http://localhost:4200 and enjoy!
+
+Canary-ember is based on [ember-cli](http://iamstef.net/ember-cli/), so
+you can refer to that documentation for info about project layout.
