@@ -45,7 +45,12 @@ coincidence that this project is also called canary.) When query-params
 ships in a production build (I think scheduled for 1.7) we can lock down
 the version to something more stable.
 
-Due 
+Due to using the canary version of ember, ember-cli looks for the file
+in the wrong place. So you need to rename a file:
+
+```sh
+canary-ember> mv vendor/ember/index.js vendor/ember/ember.js
+```
 
 Build it...
 ```sh
