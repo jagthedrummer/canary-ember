@@ -42,6 +42,11 @@ var bootstrapFonts = pickFiles('vendor/bootstrap-sass-official/vendor/assets/fon
     destDir: '/assets/bootstrap'
 });
 
+
+var uglifyJavaScript = require('broccoli-uglify-js');
+var appTree = uglifyJavaScript(app.toTree(), {});
+
+
 var mergeTrees = require('broccoli-merge-trees');
 
-module.exports = mergeTrees([app.toTree(),bootstrapFonts]);
+module.exports = mergeTrees([appTree,bootstrapFonts]);
