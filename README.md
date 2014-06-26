@@ -72,3 +72,7 @@ Open your browser to http://localhost:4200 and enjoy!
 
 Canary-ember is based on [ember-cli](http://iamstef.net/ember-cli/), so
 you can refer to that documentation for info about project layout.
+
+
+# License
+**MIT**
