@@ -8,6 +8,16 @@ var App = Ember.Application.extend({
   Resolver: Resolver
 });
 
+
+$.get('canary-hosts.json').done(function(data){
+	//Ember.Logger.log(data);
+	ENV.CANARY_API_HOST = data.api;
+	ENV.CANARY_CHECKS_HOST = data.checks;
+}).fail(function(){
+	//we ain't got one!
+	Ember.Logger.log('use default canary hosts!');
+});
+
 loadInitializers(App, 'canary-ember');
 
 export default App;

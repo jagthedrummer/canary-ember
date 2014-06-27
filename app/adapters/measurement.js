@@ -1,5 +1,5 @@
 export default DS.RESTAdapter.extend({
-  host : 'https://api.canary.io',
+  host : ENV.CANARY_API_HOST || 'https://api.canary.io',
   namespace : 'checks',
   findQuery: function(store, type, query) {
     var url = this.buildURL('');
