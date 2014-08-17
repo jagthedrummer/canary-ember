@@ -19,6 +19,63 @@ var MeasurementsController = Ember.ArrayController.extend({
 
   updateStatus : 'playing',
 
+  reducedComputed : Ember.reduceComputed('@this', {
+    initialValue: {},
+
+    addedItem: function (locations, item, changeMeta, instanceMeta) {
+
+      var allData = locations['all'];
+      if(!allData){
+        allData = locations['all'] = this.createLocationDataObject('all');
+      }
+      var pieAttNames = ['local_ip','primary_ip','exit_status','http_status','location'];
+      var lineAttNames = ['total_time','starttransfer_time','connect_time','namelookup_time'];
+      var _this = this;
+
+
+      var locationName = item.get('location');
+      var locationData = locations[locationName];
+      if(!locationData){
+        locationData = locations[locationName] = this.createLocationDataObject(locationName);
+      }
+      var t = item.get('t');
+
+      allData.runningTotalData.measurements += 1;
+      locationData.runningTotalData.measurements += 1;
+
+      var http_status = item.get('http_status');
+      if(!allData.runningTotalData.http_status[http_status]){
+        allData.runningTotalData.http_status[http_status] = 0;
+      }
+      allData.runningTotalData.http_status[http_status] += 1;
+      if(!locationData.runningTotalData.http_status[http_status]){
+        locationData.runningTotalData.http_status[http_status] = 0;
+      }
+      locationData.runningTotalData.http_status[http_status] += 1;
+
+
+      lineAttNames.forEach(function(attName){
+        allData[attName].values.unshift({x:t,y:item.get(attName)});
+        locationData[attName].values.unshift({x:t,y:item.get(attName)});
+      });
+
+      pieAttNames.forEach(function(attName){
+        _this.handlePieCount(allData,attName,item);
+        _this.handlePieCount(locationData,attName,item);
+      });
+
+      console.log('addItem',locations, item, changeMeta, instanceMeta);
+      return locations;
+      //return Math.max(accumulatedValue, item);
+    },
+
+    removedItem: function (locations, item, changeMeta, instanceMeta) {
+      console.log('removedItem',locations, item, changeMeta, instanceMeta);
+      return locations;
+    }
+  }),
+
+
 
   isOverview : function(){
     return (this.get('currentLocation') === 'all');
@@ -29,6 +86,7 @@ var MeasurementsController = Ember.ArrayController.extend({
       return;
     }
     var masterLocationData = this.get('masterLocationData');
+    console.log('masterLocationData',masterLocationData);
     var name = this.get('currentLocation');
     if( name === 'overview'){
       name = 'all';
@@ -316,8 +374,8 @@ var MeasurementsController = Ember.ArrayController.extend({
     if(timeout){
       clearTimeout(timeout);
     }
-    timeout = setTimeout($.proxy(this.updateContent,this),3 * 1000);
-    this.set('timeout',timeout);
+    //timeout = setTimeout($.proxy(this.updateContent,this),30 * 1000);
+    //this.set('timeout',timeout);
   },
 
   actions : {

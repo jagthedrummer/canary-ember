@@ -1,6 +1,8 @@
 <h1 class="page-header">
   {{check.url}}
 
+  {{reducedComputed}}
+
   <span {{bind-attr class="updateStatus :play-pause-button :btn :btn-default"}} {{action toggleUpdateStatus}}>
     <span class="glyphicon glyphicon-pause"></span>
     <span class="glyphicon glyphicon-play"></span>
