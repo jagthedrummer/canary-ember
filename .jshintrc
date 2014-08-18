@@ -12,7 +12,8 @@
     "ENV": true,
     "module": true,
     "d3":true,
-    "nv":true
+    "nv":true,
+    "CanaryEmberENV": true
   },
   "node" : false,
   "browser" : false,

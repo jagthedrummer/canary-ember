@@ -10,15 +10,17 @@
     {{BASE_TAG}}
 
     <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/app.css">
+    <link rel="stylesheet" href="assets/canary-ember.css">
   </head>
   <body>
     <script>
-      window.ENV = {{ENV}};
+      window.CanaryEmberENV = {{ENV}};
+      window.EmberENV = window.CanaryEmberENV.EmberENV;
     </script>
-    <script src="assets/app.js"></script>
+    <script src="assets/vendor.js"></script>
+    <script src="assets/canary-ember.js"></script>
     <script>
-      window.CanaryEmber = require('canary-ember/app')['default'].create(ENV.APP);
+      window.CanaryEmber = require('canary-ember/app')['default'].create(CanaryEmberENV.APP);
     </script>
   </body>
 </html>

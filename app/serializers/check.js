@@ -1,5 +1,5 @@
 export default DS.RESTSerializer.extend({
-  normalizePayload: function(type, payload) {
+  normalizePayload: function(payload) {
     return {
       'checks' : payload
     };

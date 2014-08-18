@@ -1,5 +1,5 @@
 var Router = Ember.Router.extend({
-  location: ENV.locationType
+  location: CanaryEmberENV.locationType
 });
 
 Router.map(function() {
