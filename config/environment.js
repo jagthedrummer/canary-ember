@@ -14,6 +14,7 @@ module.exports = function(environment) {
     },
 
     APP: {
+      'USE_CUSTOM_HOSTS' : false
       // Here you can pass flags/options to your application instance
       // when it is created
     }
